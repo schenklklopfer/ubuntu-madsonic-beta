@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
   unzip \
   wget \
   joe \
+  patch \
   && rm -rf /var/lib/apt/lists/* \
   && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
@@ -35,6 +36,9 @@ VOLUME /media
 
 EXPOSE 4040
 EXPOSE 4050
+
+ADD ./scripts/keystore.patch /keystore.patch
+RUN patch -Np1 --ignore-whitespace /usr/share/madsonic/madsonic.sh /keystore.patch
 
 ADD ./start.sh /start.sh
 RUN chmod +x  /start.sh
