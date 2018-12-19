@@ -37,14 +37,15 @@ Please replace all user variables in the above command defined by <> with the co
 
 **Access application**
 
-`http://<host ip>:4040`
+`http://<host ip>:4040/madsonic`
+`https://<host ip>:4443/madsonic`
 
 **Example**
 
 ```
 docker run -d \
 	-p 4040:4040 \
-	-p 4050:4050 \
+	-p 4443:4443 \
 	--name=madsonic \
 	-v /media/music/:/media \
 	-v /apps/docker/madsonic:/config \
