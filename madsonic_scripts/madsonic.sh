@@ -22,7 +22,7 @@ MADSONIC_DEFAULT_PLAYLIST_BACKUP_FOLDER=/media/playlists/backup
 MADSONIC_DEFAULT_KEYSTORE_PASSWORD=madsonic
 MADSONIC_DEFAULT_KEYSTORE=${MADSONIC_HOME}/madsonic.keystore
 MADSONIC_DEFAULT_TRANSCODE_FOLDER=${MADSONIC_HOME}/transcode #/usr/local/bin	
-MADSONIC_DEFAULT_TIMEZONE=
+MADSONIC_DEFAULT_TIMEZONE=Europe/Berlin
 MADSONIC_PIDFILE=
 MADSONIC_UPDATE=true
 MADSONIC_GZIP=
@@ -31,6 +31,7 @@ MADSONIC_PROXY=false
 MADSONIC_PROXY_TYPE=http
 MADSONIC_PROXY_HOST=localhost
 MADSONIC_PROXY_PORT=8888
+MADSONIC_USE_SSL=true
 quiet=0
 
 usage() {
@@ -77,6 +78,7 @@ usage() {
     echo "  --db=JDBC_URL                         Use alternate database. MySQL and HSQL are currently supported."
     echo "  --update=VALUE                        Configure Madsonic to look in folder /update for updates. Default 'true'"
     echo "  --gzip=VALUE                          Configure Madsonic to use Gzip compression. Default 'true'"
+    echo "  --use-ssl=VALUE                       Configure Madsonic to use TLS/SSL. Default 'true'."
     echo "  --quiet                               Don't print anything to standard out. Default false."
     exit 1 
 }
@@ -150,6 +152,9 @@ while [ $# -ge 1 ]; do
         --db=?*)
             MADSONIC_DB=${1#--db=}
            ;;
+        --use-ssl=?*)
+          MADSONIC_USE_SSL=${1#--use-ssl=}
+          ;;
         --quiet)
             quiet=1
             ;;
@@ -177,7 +182,12 @@ if [ -L $0 ] && ([ -e /bin/readlink ] || [ -e /usr/bin/readlink ]); then
     cd $(dirname $(readlink $0))
 fi
 
-${JAVA} -Xms${MADSONIC_INIT_MEMORY}m -Xmx${MADSONIC_MAX_MEMORY}m \
+SSL_PARAMETERS=""
+if [ $MADSONIC_USE_SSL = "true" ] && [ -e "${MADSONIC_DEFAULT_KEYSTORE}" ]; then
+    $SSL_PARAMETERS = -Dmadsonic.ssl.keystore=${MADSONIC_DEFAULT_KEYSTORE} -Dmadsonic.ssl.password=${MADSONIC_DEFAULT_KEYSTORE_PASSWORD}
+fi
+
+${JAVA} ${SSL_PARAMETERS} -Xms${MADSONIC_INIT_MEMORY}m -Xmx${MADSONIC_MAX_MEMORY}m \
   -Dmadsonic.home=${MADSONIC_HOME} \
   -Dmadsonic.host=${MADSONIC_HOST} \
   -Dmadsonic.port=${MADSONIC_PORT} \
@@ -190,8 +200,6 @@ ${JAVA} -Xms${MADSONIC_INIT_MEMORY}m -Xmx${MADSONIC_MAX_MEMORY}m \
   -Dmadsonic.defaultPlaylistExportFolder=${MADSONIC_DEFAULT_PLAYLIST_EXPORT_FOLDER} \
   -Dmadsonic.defaultPlaylistBackupFolder=${MADSONIC_DEFAULT_PLAYLIST_BACKUP_FOLDER} \
   -Dmadsonic.defaultTranscodeFolder=${MADSONIC_DEFAULT_TRANSCODE_FOLDER} \
-  -Dmadsonic.ssl.keystore=${MADSONIC_DEFAULT_KEYSTORE} \
-  -Dmadsonic.ssl.password=${MADSONIC_DEFAULT_KEYSTORE_PASSWORD} \
   -Duser.timezone=${MADSONIC_DEFAULT_TIMEZONE} \
   -Dmadsonic.update=${MADSONIC_UPDATE} \
   -Dmadsonic.gzip=${MADSONIC_GZIP} \
