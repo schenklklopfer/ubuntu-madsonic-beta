@@ -183,11 +183,13 @@ if [ -L $0 ] && ([ -e /bin/readlink ] || [ -e /usr/bin/readlink ]); then
 fi
 
 SSL_PARAMETERS=""
-if [ $MADSONIC_USE_SSL = "true" ] && [ -e "${MADSONIC_DEFAULT_KEYSTORE}" ]; then
-    $SSL_PARAMETERS = -Dmadsonic.ssl.keystore=${MADSONIC_DEFAULT_KEYSTORE} -Dmadsonic.ssl.password=${MADSONIC_DEFAULT_KEYSTORE_PASSWORD}
+if [ $MADSONIC_USE_SSL = "true" ] && [ -e ${MADSONIC_DEFAULT_KEYSTORE} ]; then
+    SSL_PARAMETERS=" -Dmadsonic.ssl.keystore=${MADSONIC_DEFAULT_KEYSTORE} -Dmadsonic.ssl.password=${MADSONIC_DEFAULT_KEYSTORE_PASSWORD}"
+    echo "SSL/TLS enabled"
+    echo $SSL_PARAMETERS	
 fi
 
-${JAVA} ${SSL_PARAMETERS} -Xms${MADSONIC_INIT_MEMORY}m -Xmx${MADSONIC_MAX_MEMORY}m \
+${JAVA}${SSL_PARAMETERS} -Xms${MADSONIC_INIT_MEMORY}m -Xmx${MADSONIC_MAX_MEMORY}m \
   -Dmadsonic.home=${MADSONIC_HOME} \
   -Dmadsonic.host=${MADSONIC_HOST} \
   -Dmadsonic.port=${MADSONIC_PORT} \

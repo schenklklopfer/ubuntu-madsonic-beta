@@ -37,6 +37,10 @@ VOLUME /media
 EXPOSE 4040
 EXPOSE 4443
 
+# for DLNA
+EXPOSE 1900/udp
+EXPOSE 2869
+
 ADD ./keystore.patch /keystore.patch
 RUN patch -Np1 --ignore-whitespace /usr/share/madsonic/madsonic.sh /keystore.patch
 RUN rm /keystore.patch
