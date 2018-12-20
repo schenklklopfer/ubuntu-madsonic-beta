@@ -34,7 +34,7 @@ VOLUME /var/madsonic
 VOLUME /config
 VOLUME /media
 
-EXPOSE 4040
+#EXPOSE 4040
 EXPOSE 4443
 
 ADD ./keystore.patch /keystore.patch
