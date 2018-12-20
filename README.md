@@ -24,8 +24,9 @@ the madsonic binary.
 
 **Usage**
 
-```
+```sh
 docker run -d \
+	-p 4040:4040 \
 	-p 4443:4443 \
 	--name=<container name> \
 	-v <path for media files>:/media \
@@ -41,8 +42,9 @@ Please replace all user variables in the above command defined by <> with the co
 
 **Example**
 
-```
+```sh
 docker run -d \
+	-p 4040:4040 \
 	-p 4443:4443 \
 	--name=madsonic \
 	-v /media/music/:/media \
