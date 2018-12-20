@@ -12,15 +12,13 @@ Based on Java technology, Madsonic runs on most platforms,
 including Windows, Mac, Linux, OSX, and Unix variants.
 
 This version contains a patch for madsonic.sh, allowing you to use your own
-Java keystore. In fact, **providing a keystore is now required!** The patch is applied during image building.
+Java keystore. The patch is applied during image building.
 
 **Build notes**
 
 - Latest beta release of Madsonic. 
-- [Create a Java keystore](LetsEncryptJKS.md) and put the JKS into your
-  madsonic config folder. 
-- Extend ```start.sh``` to your needs. It calls ```madsonic.sh``` instead of
-the madsonic binary. 
+- [Create a Java keystore](LetsEncryptJKS.md) and put the JKS into your madsonic config folder. 
+- Extend ```start.sh``` to your needs. Set ```--use-ssl=false``` if you don't want to use SSL/TLS. 
 
 **Usage**
 
