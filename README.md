@@ -18,7 +18,7 @@ Java keystore. The patch is applied during image building.
 
 - Latest beta release of Madsonic. 
 - [Create a Java keystore](LetsEncryptJKS.md) and put the JKS into your madsonic config folder. 
-- Extend ```start.sh``` to your needs. Set ```--use-ssl=false``` if you don't want to use SSL/TLS. 
+- Extend ```start.sh``` to your needs. Set ```--use-ssl=false``` if you don't want to use my SSL/TLS extension. 
 
 **Usage**
 
