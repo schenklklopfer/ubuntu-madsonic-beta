@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
 # Madsonic Package Information
 ENV LANG en_US.utf8
@@ -17,9 +17,9 @@ RUN apt-get update && apt-get install -y \
 
 # Madsonic Package Information
 ENV PKG_NAME madsonic
-ENV PKG_VER 6.3
-ENV PKG_BUILD 9840
-ENV PKG_DATE 20180107
+ENV PKG_VER 7.0
+ENV PKG_BUILD 10390
+ENV PKG_DATE 20190510
 
 ENV DEB_NAME ${PKG_DATE}_${PKG_NAME}-${PKG_VER}.${PKG_BUILD}.deb
 RUN wget http://madsonic.org/download/${PKG_VER}/${DEB_NAME}
